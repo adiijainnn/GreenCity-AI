@@ -1,0 +1,41 @@
+FROM python:3.11-slim
+
+WORKDIR /app
+
+# Install system dependencies for GIS & PostgreSQL
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    gdal-bin \
+    libgdal-dev \
+    proj-bin \
+    libproj-dev \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY package.json .env.example ./
+COPY apps/api /app/apps/api
+
+# Install python dependencies
+RUN pip install --no-cache-dir --upgrade pip
+RUN pip install --no-cache-dir \
+    fastapi \
+    uvicorn \
+    pydantic \
+    pydantic-settings \
+    email-validator \
+    sqlalchemy \
+    geoalchemy2 \
+    shapely \
+    pyproj \
+    pyjwt \
+    bcrypt \
+    python-multipart \
+    httpx \
+    redis \
+    celery \
+    psycopg2-binary
+
+EXPOSE 8000
+
+CMD ["uvicorn", "apps.api.main:app", "--host", "0.0.0.0", "--port", "8000"]

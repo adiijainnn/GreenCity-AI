@@ -1,0 +1,20 @@
+{
+  "name": "green-city-ai",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Production-Grade Urban Green Space Intelligence & Ecosystem Service Analysis Platform",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm --prefix apps/web run dev",
+    "dev:api": "source venv/bin/activate && uvicorn apps.api.main:app --reload --port 8000",
+    "build:web": "npm --prefix apps/web run build",
+    "lint:web": "npm --prefix apps/web run lint",
+    "test:api": "source venv/bin/activate && pytest apps/api/tests",
+    "seed": "source venv/bin/activate && python -m apps.api.seed"
+  },
+  "author": "GreenCity AI Engineering Team",
+  "license": "MIT"
+}
